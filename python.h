@@ -53,7 +53,7 @@ void reversed_into(void *values, void *container, int len, size_t size);
 
 
 int imin(int *values, int len);
-double dmin(double *values, int len)
+double dmin(double *values, int len);
 
 
 int imax(int *values, int len);
