@@ -16,5 +16,5 @@ python.o: python.c python.h
 	$(CC) $(CFLAGS) python.c
 
 clean:
-	rm *.o python-c
+	rm *.o py-tests
 
