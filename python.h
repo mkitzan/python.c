@@ -1,8 +1,5 @@
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
-#include <string.h>
+#ifndef _PYTHON_H_
+#define _PYTHON_H_
 
 
 // malloc wrapper function (tests for NULL return)
@@ -95,4 +92,6 @@ double dmin(double *values, int len);
 int imax(int *values, int len);
 // takes array of doubles. returns largest value
 double dmax(double *values, int len);
+
+#endif
 
