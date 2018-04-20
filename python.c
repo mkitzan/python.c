@@ -117,9 +117,10 @@ int set_into(void *values, void *container, int len, size_t size) {
 int in(void *test, void *values, int len, size_t size) {
     void *end;
     
-    // check if any values match the test value
+    // check if any values match the test value, if so return true
     for(end = values+(len*size); values < end; values += size) if(!memcmp(test, values, size)) return 1;
     
+    // not in array, return false
     return 0;
 }
 
@@ -190,6 +191,7 @@ int symdiff(void *values1, void *values2, int len1, int len2, void *container, s
     void *end, *curr;
     int n;
     
+    // tests which values are unique to array1, writes into container
     for(n = 0, curr = values1, end = values1+(len1*size); curr < end; curr += size) {
         if(!in(curr, values2, len2, size)) {
             memcpy(container+n, curr, size);
@@ -197,6 +199,7 @@ int symdiff(void *values1, void *values2, int len1, int len2, void *container, s
         }
     }
     
+    // tests which values are unique to array2, writes into container
     for(curr = values2, end = values2+(len2*size); curr < end; curr += size) {
         if(!in(curr, values1, len1, size)) {
             memcpy(container+n, curr, size);
@@ -204,6 +207,7 @@ int symdiff(void *values1, void *values2, int len1, int len2, void *container, s
         }
     }
     
+    // return length of container
     return n / size;
 }
 
@@ -212,12 +216,15 @@ int symdiff_arr(void *values1, void *values2, int len1, int len2, void *containe
     void *vals1, *vals2, *curr, *end;
     int n;
     
+    // create temp arrays
     vals1 = emalloc(len1*size);
     vals2 = emalloc(len2*size);
 
+    // makes sets of input arrays
     len1 = set_into(values1, vals1, len1, size);
     len2 = set_into(values2, vals2, len2, size);
     
+    // tests which values are unique to array1, writes into container
     for(n = 0, curr = vals1, end = vals1+(len1*size); curr < end; curr += size) {
         if(!in(curr, vals2, len2, size)) {
             memcpy(container+n, curr, size);
@@ -225,6 +232,7 @@ int symdiff_arr(void *values1, void *values2, int len1, int len2, void *containe
         }
     }
     
+    // tests which values are unique to array2, writes into container
     for(curr = vals2, end = vals2+(len2*size); curr < end; curr += size) {
         if(!in(curr, vals1, len1, size)) {
             memcpy(container+n, curr, size);
@@ -232,9 +240,11 @@ int symdiff_arr(void *values1, void *values2, int len1, int len2, void *containe
         }
     }
     
+    // free temp arrays
     free(vals1);
     free(vals2);
     
+    // return container length
     return n / size;
 }
 
@@ -371,6 +381,7 @@ void swap(void *value1, void *value2, size_t size) {
 void reversed(void *values, int len, size_t size) {
     int i, lim;
     
+    // i indexes by size, and swaps values in opposite position
     for(i = 0, lim = (len--/2)*size, len *= size; i < lim; i += size) swap(values+i, values+(len-i), size);
 }
 
@@ -378,6 +389,7 @@ void reversed(void *values, int len, size_t size) {
 void reversed_into(void *values, void *container, int len, size_t size) {
     void *end;
     
+    // reverse indexes through array, and copies values into container
     for(end = values+(--len*size), len = 0; end >= values; end -= size, len += size) memcpy(container+len, end, size);
 }
 
@@ -385,6 +397,7 @@ void reversed_into(void *values, void *container, int len, size_t size) {
 int imin(int *values, int len) {
     int i, min;
     
+    // indexes array, keeps track of smallest value
     for(i = 1, min = *values; i < len; i++) if(values[i] < min) min = values[i];
     
     return min;
@@ -395,6 +408,7 @@ double dmin(double *values, int len) {
     int i;
     double min;
     
+    // indexes array, keeps track of smallest value
     for(i = 1, min = *values; i < len; i++) if(values[i] < min) min = values[i];
     
     return min;
@@ -404,6 +418,7 @@ double dmin(double *values, int len) {
 int imax(int *values, int len) {
     int i, max;
     
+    // indexes array, keeps track of largest value
     for(i = 1, max = *values; i < len; i++) if(values[i] > max) max = values[i];
     
     return max;
@@ -414,6 +429,7 @@ double dmax(double *values, int len) {
     int i;
     double max;
     
+    // indexes array, keeps track of largest value
     for(i = 1, max = *values; i < len; i++) if(values[i] > max) max = values[i];
     
     return max;
