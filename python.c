@@ -3,9 +3,9 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#include "python.h"
 
 
-// the zastre special
 void *emalloc(size_t n) {
     void *p;
 
@@ -382,7 +382,7 @@ void reversed_into(void *values, void *container, int len, size_t size) {
 }
 
 
-int min_i(int *values, int len) {
+int imin(int *values, int len) {
     int i, min;
     
     for(i = 1, min = *values; i < len; i++) if(values[i] < min) min = values[i];
@@ -391,7 +391,7 @@ int min_i(int *values, int len) {
 }
 
 
-double min_d(double *values, int len) {
+double dmin(double *values, int len) {
     int i;
     double min;
     
@@ -401,7 +401,7 @@ double min_d(double *values, int len) {
 }
 
 
-int max_i(int *values, int len) {
+int imax(int *values, int len) {
     int i, max;
     
     for(i = 1, max = *values; i < len; i++) if(values[i] > max) max = values[i];
@@ -410,7 +410,7 @@ int max_i(int *values, int len) {
 }
 
 
-double max_d(double *values, int len) {
+double dmax(double *values, int len) {
     int i;
     double max;
     
@@ -418,3 +418,5 @@ double max_d(double *values, int len) {
     
     return max;
 }
+
+
