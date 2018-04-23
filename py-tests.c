@@ -178,7 +178,7 @@ void test_constructor() {
     double data = 10.25;
     
     printf("\nTESTING CONSTR -> ");
-    n = new(&data, sizeof(double));
+    n = nnew(&data, sizeof(double));
     
     assert(*(double *)(n->value) == data);
     assert(n->next == NULL);
@@ -196,7 +196,7 @@ void test_listaugment() {
     
     data = 0.9;
     
-    n = new(&data, size);
+    n = nnew(&data, size);
     printf("INSERTING DATA   -> ");
     
     data = 1.1;

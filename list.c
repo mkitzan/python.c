@@ -32,7 +32,7 @@ Node *end(Node *start) {
 }
 
 
-Node *new(void *val, size_t size) {
+Node *nnew(void *val, size_t size) {
     Node *temp;
     
     temp = (Node *)emalloc(sizeof(Node));
@@ -48,14 +48,14 @@ Node *new(void *val, size_t size) {
 Node *insert(Node *start, void *val, size_t size, int i) {
     if(!i) return push(start, val, size);
     
-    link(get(start, i-1), new(val, size));
+    link(get(start, i-1), nnew(val, size));
     
     return start;
 }
 
 
 Node *push(Node *start, void *val, size_t size) {
-    Node *ins = new(val, size);
+    Node *ins = nnew(val, size);
     
     ins->next = start;
     
@@ -64,7 +64,7 @@ Node *push(Node *start, void *val, size_t size) {
 
 
 Node *append(Node *start, void *val, size_t size) {
-    end(start)->next = new(val, size);
+    end(start)->next = nnew(val, size);
     
     return start;
 }
@@ -121,14 +121,14 @@ void lfree(Node *start) {
 
 
 Node *ncopy(Node *curr, size_t size) {
-    return new(curr->value, size);
+    return nnew(curr->value, size);
 }
 
 
 Node *lcopy(Node *start, size_t size) {
     Node *temp, *curr;
     
-    temp = new(start->value, size);
+    temp = nnew(start->value, size);
     curr = temp;
     
     for(start = start->next; start != NULL; start = start->next, curr = curr->next) curr->next = ncopy(start, size);
@@ -151,11 +151,11 @@ Node *tolist(void *arr, int len, size_t size) {
     int i;
     Node *start, *end;
     
-    start = new(arr, size);
+    start = nnew(arr, size);
     end = start;
     
     for(i = size, len--; len; i += size, len--) {
-        end->next = new(arr+i, size); 
+        end->next = nnew(arr+i, size); 
         end = end->next;
     }
     

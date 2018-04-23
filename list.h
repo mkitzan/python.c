@@ -13,7 +13,7 @@ struct node {
 int length(Node *);
 
 // returns a pointer to an empty node
-Node *new(void *, size_t);
+Node *nnew(void *, size_t);
 
 
 // inserts value into list at index
