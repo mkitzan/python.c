@@ -9,7 +9,7 @@ struct node {
 };
 
 
-// returns lnegth od list passed
+// returns length of list passed
 int length(Node *);
 
 // returns a pointer to an empty node
