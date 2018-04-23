@@ -1,22 +1,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 #include <string.h>
 #include "python.h"
-
-
-void *emalloc(size_t n) {
-    void *p;
-
-    p = malloc(n);
-    if (p == NULL) {
-        fprintf(stderr, "malloc of %zu bytes failed", n);
-        exit(1);
-    }
-
-    return p;
-}
+#include "emalloc.h"
 
 
 void merge(void *values, int low, int mid, int high, size_t size, int(*compare)(const void *, const void *, size_t size)) {
@@ -378,7 +365,7 @@ void swap(void *value1, void *value2, size_t size) {
 }
 
 
-void reversed(void *values, int len, size_t size) {
+void reverse(void *values, int len, size_t size) {
     int i, lim;
     
     // i indexes by size, and swaps values in opposite position
@@ -386,7 +373,7 @@ void reversed(void *values, int len, size_t size) {
 }
 
 
-void reversed_into(void *values, void *container, int len, size_t size) {
+void reverse_into(void *values, void *container, int len, size_t size) {
     void *end;
     
     // reverse indexes through array, and copies values into container
