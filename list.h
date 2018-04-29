@@ -13,7 +13,7 @@ struct node {
 int length(Node *);
 
 // returns a pointer to an empty node
-Node *nnew(void *, size_t);
+Node *new_node(void *, size_t);
 
 
 // inserts value into list at index
@@ -41,19 +41,19 @@ Node *pop(Node *, void *, size_t);
 
 
 // frees every node in the list, and the list itself: does free node values
-void lfree(Node *);
+void delete_list(Node *);
 
 
 // frees the passed node
-void nfree(Node *);
+void delete_node(Node *);
 
 
 // copies entire list, and returns a pointer to the start of the copy
-Node *lcopy(Node *, size_t);
+Node *copy_list(Node *, size_t);
 
 
 // copies passed node, and returns a pointer to a copy
-Node *ncopy(Node *, size_t);
+Node *copy_node(Node *, size_t);
 
 
 // returns the last node of a list
@@ -65,14 +65,14 @@ Node *extend(Node *, Node *, size_t);
 
 
 // reverses passed list, and returns start of reversed list
-Node *lreverse(Node *, size_t);
+Node *reverse_list(Node *, size_t);
 
 
 // converts passed array to list
 Node *tolist(void *, int len, size_t size);
 
-// converts list to static array
-void *toarray(Node *, size_t);
+// copies each node value into container array
+void toarray(void *, Node *, size_t);
 
 
 /*

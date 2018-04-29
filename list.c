@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "list.h"
-#include "emalloc.h"
+#include "efuncts.h"
 
 
 // HELPER FUNCTIONS
@@ -32,13 +32,13 @@ Node *end(Node *start) {
 }
 
 
-Node *nnew(void *val, size_t size) {
+Node *new_node(void *val, size_t size) {
     Node *temp;
     
     temp = (Node *)emalloc(sizeof(Node));
     temp->value = emalloc(size);
     
-    memcpy(temp->value, val, size);
+    ememcpy(temp->value, val, size);
     temp->next = NULL;
     
     return temp;
@@ -48,14 +48,14 @@ Node *nnew(void *val, size_t size) {
 Node *insert(Node *start, void *val, size_t size, int i) {
     if(!i) return push(start, val, size);
     
-    link(get(start, i-1), nnew(val, size));
+    link(get(start, i-1), new_node(val, size));
     
     return start;
 }
 
 
 Node *push(Node *start, void *val, size_t size) {
-    Node *ins = nnew(val, size);
+    Node *ins = new_node(val, size);
     
     ins->next = start;
     
@@ -64,7 +64,7 @@ Node *push(Node *start, void *val, size_t size) {
 
 
 Node *append(Node *start, void *val, size_t size) {
-    end(start)->next = nnew(val, size);
+    end(start)->next = new_node(val, size);
     
     return start;
 }
@@ -86,8 +86,8 @@ Node *rem(Node *start, void *container, size_t size, int i) {
     curr = prev->next;
     prev->next = curr->next;
     
-    memcpy(container, curr->value, size);
-    nfree(curr);
+    ememcpy(container, curr->value, size);
+    delete_node(curr);
     
     return start;
 }
@@ -99,39 +99,40 @@ Node *pop(Node *start, void *container, size_t size) {
     temp = start;
     start = start->next;
     
-    memcpy(container, temp->value, size);
-    nfree(temp);
+    ememcpy(container, temp->value, size);
+    delete_node(temp);
     
     return start;
 }
 
 
 
-void nfree(Node *curr) {
+void delete_node(Node *curr) {
     free(curr->value);
     free(curr);
 }
 
 
-void lfree(Node *start) {
+void delete_list(Node *start) {
     Node *prev, *curr;
     
-    for(prev = start, curr = prev->next; curr != NULL; prev = curr, curr = curr->next) nfree(prev);
+    for(prev = start, curr = prev->next; curr != NULL; prev = curr, curr = curr->next) delete_node(prev);
+    delete_node(prev);
 }
 
 
-Node *ncopy(Node *curr, size_t size) {
-    return nnew(curr->value, size);
+Node *copy_node(Node *curr, size_t size) {
+    return new_node(curr->value, size);
 }
 
 
-Node *lcopy(Node *start, size_t size) {
+Node *copy_list(Node *start, size_t size) {
     Node *temp, *curr;
     
-    temp = nnew(start->value, size);
+    temp = new_node(start->value, size);
     curr = temp;
     
-    for(start = start->next; start != NULL; start = start->next, curr = curr->next) curr->next = ncopy(start, size);
+    for(start = start->next; start != NULL; start = start->next, curr = curr->next) curr->next = copy_node(start, size);
     
     return temp;
 }
@@ -141,7 +142,7 @@ Node *extend(Node *start1, Node *start2, size_t size) {
     Node *temp;
     
     temp = end(start1);
-    temp->next = lcopy(start2, size);
+    temp->next = copy_list(start2, size);
     
     return start1;
 }
@@ -151,39 +152,34 @@ Node *tolist(void *arr, int len, size_t size) {
     int i;
     Node *start, *end;
     
-    start = nnew(arr, size);
+    start = new_node(arr, size);
     end = start;
     
     for(i = size, len--; len; i += size, len--) {
-        end->next = nnew(arr+i, size); 
+        end->next = new_node(arr+i, size); 
         end = end->next;
     }
     
     return start;
 }
 
-void *toarray(Node *start, size_t size) {
-    int n, offset;
-    void *array;
+void toarray(void *container, Node *start, size_t size) {
+    int offset;
   
-    n = length(start);
     offset = 0;
-    array = emalloc(n*size);
     
-    for(; start != NULL; start = start->next, offset += size) memcpy(array+offset, start->value, size);
-    
-    return array;
+    for(; start != NULL; start = start->next, offset += size) ememcpy(container+offset, start->value, size);
 }
 
 
-Node *lreverse(Node *start, size_t size) {
+Node *reverse_list(Node *start, size_t size) {
     Node *temp, *curr;
     
-    temp = ncopy(start, size);
+    temp = copy_node(start, size);
 
     for(curr = start->next; curr != NULL; curr = curr->next) temp = push(temp, curr->value, size);
 
-    lfree(start);
+    delete_list(start);
 
     return temp;
 }

@@ -6,6 +6,9 @@
 #include <assert.h>
 #include "python.h"
 #include "list.h"
+#include "dict.h"
+
+#define POINTER_SIZE sizeof(void *)
 
 // TESTER
 void times_two(void *value) {
@@ -178,14 +181,14 @@ void test_constructor() {
     double data = 10.25;
     
     printf("\nTESTING CONSTR -> ");
-    n = nnew(&data, sizeof(double));
+    n = new_node(&data, sizeof(double));
     
     assert(*(double *)(n->value) == data);
     assert(n->next == NULL);
     
     printf("PASSED\n\n");
 
-    nfree(n);
+    delete_node(n);
 }
 
 
@@ -196,7 +199,7 @@ void test_listaugment() {
     
     data = 0.9;
     
-    n = nnew(&data, size);
+    n = new_node(&data, size);
     printf("INSERTING DATA   -> ");
     
     data = 1.1;
@@ -272,7 +275,7 @@ void test_listaugment() {
     
     printf("PASSED\n\n");
 
-    lfree(n);
+    delete_list(n);
 }
 
 
@@ -284,9 +287,10 @@ void test_listops() {
     size_t size = sizeof(double);
     
     printf("TESTING CONVERTERS -> ");
+    temp = malloc(sizeof(double)*l);
 
     n = tolist(data, l, size);
-    temp = toarray(n, size);
+    toarray(temp, n, size);
     
     assert(*(double *)(get(n, 0)->value) == 1.1);
     assert(*(double *)(get(n, 1)->value) == 2.2);
@@ -302,7 +306,7 @@ void test_listops() {
     
     printf("PASSED\nTESTING COPY       -> ");
     
-    t = lcopy(n, size);
+    t = copy_list(n, size);
     
     assert(*(double *)(get(t, 0)->value) == 1.1);
     assert(*(double *)(get(t, 1)->value) == 2.2);
@@ -310,9 +314,9 @@ void test_listops() {
     assert(*(double *)(get(t, 3)->value) == 4.4);
     assert(*(double *)(get(t, 4)->value) == 5.5);
     
-    printf("PASSED\nTESTING LREVERSE   -> ");
+    printf("PASSED\nTESTING reverse_list   -> ");
 
-    t = lreverse(t, size);
+    t = reverse_list(t, size);
     
     assert(*(double *)(get(t, 0)->value) == 5.5);
     assert(*(double *)(get(t, 1)->value) == 4.4);
@@ -337,7 +341,9 @@ void test_listops() {
     
     printf("PASSED\n\n");
     
-    lfree(n);
+    delete_list(n);
+    delete_list(t);
+    free(temp);
 }
 
 
@@ -372,6 +378,75 @@ void test_msort() {
     printf("\n");
 }
 
+
+void const_test() {
+    Dict *dt;
+    int i = 10;
+    
+    printf("TESTING CONSTR -> ");
+    
+    dt = new_dict(i);
+    
+    printf("PASSED\nASSERTING VALS -> ");
+    
+    assert(dt->cap == i);
+    assert(dt->count == 0);
+    
+    printf("PASSED\n\n");
+    
+    delete_dict(dt);
+}
+
+
+void hash_test() {
+    Dict *dt;
+    void *val;
+    int i = 7;
+    
+    char k1, k2, k3, k4, k5, k6, k7;
+    k1 = 'k';
+    k2 = 'q';
+    k3 = 'e';
+    k4 = 's';
+    k5 = 'a';
+    k6 = 'm';
+    k7 = 'g';
+    
+    double v1, v2, v3, v4, v5, v6, v7;
+    v1 = 50.1;
+    v2 = 12.2;
+    v3 = 34.3;
+    v4 = 5.4;
+    v5 = 64.5;
+    v6 = 71.6;
+    v7 = 91.7;
+    
+    
+    dt = new_dict(i);
+    
+    printf("TESTING HASHING -> ");
+    
+    dt = hash(dt, &k1, sizeof(k1), &v1);
+    dt = hash(dt, &k2, sizeof(k2), &v2);
+    dt = hash(dt, &k3, sizeof(k3), &v3);
+    dt = hash(dt, &k4, sizeof(k4), &v4);
+    dt = hash(dt, &k5, sizeof(k5), &v5);
+    dt = hash(dt, &k6, sizeof(k6), &v6);
+    dt = hash(dt, &k7, sizeof(k7), &v7);
+    
+    printf("PASSED\nTESTING LOOKUP  -> ");
+    
+    val = lookup(dt, &k1, sizeof(k1));
+    
+    printf("PASSED\nASSERTING VALS  -> ");
+    
+    assert(*(double *)val == v1);
+    printf("PASSED\n\n");
+    
+    delete_dict(dt);
+}
+
+
 int main(int argc, char *argv[]) {
     test_filter_map_mM();
     test_slice_set();
@@ -379,6 +454,8 @@ int main(int argc, char *argv[]) {
     test_rev();
     test_msort();
     test_list();
+    const_test();
+    hash_test();
     
     return 0;
 }

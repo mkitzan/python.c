@@ -6,20 +6,23 @@ CFLAGS=-Wall -g -c
 
 all: py-tests python.o list.o
 
-py-tests: py-tests.c py-tests.o emalloc.o python.o list.o
-	$(CC) py-tests.o emalloc.o python.o list.o -o $@
+py-tests: py-tests.c py-tests.o efuncts.o python.o list.o dict.o
+	$(CC) py-tests.o efuncts.o python.o list.o dict.o -o $@
 	
-py-tests.o: py-tests.c python.h list.h
+py-tests.o: py-tests.c python.h list.h dict.h
 	$(CC) $(CFLAGS) py-tests.c
 	
-python.o: python.c python.h emalloc.h
+python.o: python.c python.h efuncts.h
 	$(CC) $(CFLAGS) python.c
 
-list.o: list.c list.h emalloc.h
-	 $(CC) $(CFLAGS) list.c
+list.o: list.c list.h efuncts.h
+	$(CC) $(CFLAGS) list.c
+
+dict.o: dict.c dict.h efuncts.h
+	 $(CC) $(CFLAGS) dict.c
 	
-emalloc.o: emalloc.c emalloc.h
-	$(CC) $(CFLAGS) emalloc.c
+efuncts.o: efuncts.c efuncts.h
+	$(CC) $(CFLAGS) efuncts.c
 
 clean:
 	rm *.o py-tests

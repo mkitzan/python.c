@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "python.h"
-#include "emalloc.h"
+#include "efuncts.h"
 
 
 void merge(void *values, int low, int mid, int high, size_t size, int(*compare)(const void *, const void *, size_t size)) {
@@ -21,20 +21,20 @@ void merge(void *values, int low, int mid, int high, size_t size, int(*compare)(
     // copy over greater than values to their sorted position 
     for(lim1 = low, lim2 = mid, i = 0; lim1 < mid && lim2 < high; i += size) {
         if(compare(values+lim1, values+lim2, size) <= 0) {
-            memcpy(temp+i, values+lim1, size);
+            ememcpy(temp+i, values+lim1, size);
             lim1 += size;
         } else {
-            memcpy(temp+i, values+lim2, size);
+            ememcpy(temp+i, values+lim2, size);
             lim2 += size;
         }
     }
     
     // copy over remaining values
-    memcpy(temp+i, values+lim1, mid-lim1);
-    memcpy(temp+i, values+lim2, high-lim2);
+    ememcpy(temp+i, values+lim1, mid-lim1);
+    ememcpy(temp+i, values+lim2, high-lim2);
     
     // copy sorted temp array into the actual array
-    memcpy(values+low, temp, high-low);
+    ememcpy(values+low, temp, high-low);
 
     free(temp);
 }
@@ -71,7 +71,7 @@ int set(void *values, int len, size_t size) {
     // discard duplicates 
     for(curr = values+size, end = values+(len*size), len = size; curr < end; curr += size) {
         if(memcmp(curr-size, curr, size)) {
-            memcpy(values+len, curr, size);
+            ememcpy(values+len, curr, size);
             len += size;
         }       
     }
@@ -88,10 +88,10 @@ int set_into(void *values, void *container, int len, size_t size) {
     msort(values, len, size, memcmp);
     
     // discard duplicates
-    memcpy(container, values, size);
+    ememcpy(container, values, size);
     for(end = values+(len*size), len = size, values += size; values < end; values += size) {
         if(memcmp(values-size, values, size)) {
-            memcpy(container+len, values, size);
+            ememcpy(container+len, values, size);
             len += size;
         }
     }
@@ -114,9 +114,9 @@ int in(void *test, void *values, int len, size_t size) {
 
 int join(void *values1, void *values2, int len1, int len2, void *container, size_t size) {
     // copies first array into container
-    memcpy(container, values1, len1*size);
+    ememcpy(container, values1, len1*size);
     // copies second array into container
-    memcpy(container+(len1*size), values2, len2*size);
+    ememcpy(container+(len1*size), values2, len2*size);
     
     return len1+len2;
 }
@@ -138,7 +138,7 @@ int diff(void *values1, void *values2, int len1, int len2, void *container, size
     // checks for each element of A1 if not in A2
     for(n = 0, end = values1+(len1*size); values1 < end; values1 += size) {
         if(!in(values1, values2, len2, size)) {
-            memcpy(container+n, values1, size);
+            ememcpy(container+n, values1, size);
             n += size;
         }
     }
@@ -162,7 +162,7 @@ int diff_arr(void *values1, void *values2, int len1, int len2, void *container, 
     // check for each element of A1 not in A2
     for(n = 0, end = vals1+(len1*size); vals1 < end; vals1 += size) {
         if(!in(vals1, vals2, len2, size)) {
-            memcpy(container+n, vals1, size);
+            ememcpy(container+n, vals1, size);
             n += size;
         }
     }
@@ -181,7 +181,7 @@ int symdiff(void *values1, void *values2, int len1, int len2, void *container, s
     // tests which values are unique to array1, writes into container
     for(n = 0, curr = values1, end = values1+(len1*size); curr < end; curr += size) {
         if(!in(curr, values2, len2, size)) {
-            memcpy(container+n, curr, size);
+            ememcpy(container+n, curr, size);
             n += size;
         }
     }
@@ -189,7 +189,7 @@ int symdiff(void *values1, void *values2, int len1, int len2, void *container, s
     // tests which values are unique to array2, writes into container
     for(curr = values2, end = values2+(len2*size); curr < end; curr += size) {
         if(!in(curr, values1, len1, size)) {
-            memcpy(container+n, curr, size);
+            ememcpy(container+n, curr, size);
             n += size;
         }
     }
@@ -214,7 +214,7 @@ int symdiff_arr(void *values1, void *values2, int len1, int len2, void *containe
     // tests which values are unique to array1, writes into container
     for(n = 0, curr = vals1, end = vals1+(len1*size); curr < end; curr += size) {
         if(!in(curr, vals2, len2, size)) {
-            memcpy(container+n, curr, size);
+            ememcpy(container+n, curr, size);
             n += size;
         }
     }
@@ -222,7 +222,7 @@ int symdiff_arr(void *values1, void *values2, int len1, int len2, void *containe
     // tests which values are unique to array2, writes into container
     for(curr = vals2, end = vals2+(len2*size); curr < end; curr += size) {
         if(!in(curr, vals1, len1, size)) {
-            memcpy(container+n, curr, size);
+            ememcpy(container+n, curr, size);
             n += size;
         }
     }
@@ -243,7 +243,7 @@ int inter(void *values1, void *values2, int len1, int len2, void *container, siz
     // checks if each element in A1 is in A2
     for(n = 0, end = values1+(len1*size); values1 < end; values1 += size) {
         if(in(values1, values2, len2, size)) {
-            memcpy(container+n, values1, size);
+            ememcpy(container+n, values1, size);
             n += size;
         }
     }
@@ -267,7 +267,7 @@ int inter_arr(void *values1, void *values2, int len1, int len2, void *container,
     // checks if each element in A1 is in A2   
     for(n = 0, curr = vals1, end = vals1+(len1*size);  curr < end; curr += size) {
         if(in(curr, vals2, len2, size)) {
-            memcpy(container+n, curr, size);
+            ememcpy(container+n, curr, size);
             n += size;
         }
     }
@@ -286,7 +286,7 @@ int slice(void *values, int start, int stop, int step, size_t size) {
     step *= size;
     
     // copies each value from the array that the slice hits
-    for(n = 0; start < stop; start += step, n += size) memcpy(values, values+start, size);
+    for(n = 0; start < stop; start += step, n += size) ememcpy(values, values+start, size);
     
     //returns length of new array
     return n / size;
@@ -300,7 +300,7 @@ int slice_into(void *values, void *container, int start, int stop, int step, siz
     step *= size;
     
     // copies each value from the array that the slice hits
-    for(n = 0; start < stop; start += step, n += size) memcpy(container+n, values+start, size);
+    for(n = 0; start < stop; start += step, n += size) ememcpy(container+n, values+start, size);
     
     //returns length of new array
     return n / size;
@@ -313,7 +313,7 @@ int filter(int(*funct)(void *), void *values, int len, size_t size) {
     // test each value: if true, copy into the filtered list
     for(curr = values, end = values+(len*size), len = 0; curr < end; curr += size) {
         if(funct(curr)) {
-            memcpy(values+len, curr, size);
+            ememcpy(values+len, curr, size);
             len += size;
         }
     }
@@ -328,7 +328,7 @@ int filter_into(int(*funct)(void *), void *values, void *container, int len, siz
     // test each value: if true, copy into the container
     for(len = 0, end = values+(len*size); values < end; values += size) {
         if(funct(values)) {
-            memcpy(container+len, values, size);
+            ememcpy(container+len, values, size);
             len += size;
         }
     }
@@ -350,16 +350,16 @@ void map_into(void *(*funct)(void *), void *values, void *container, int len, si
     void *end;
     
     // copy result of function into the container
-    for(end = values+(len*size); values < end; values += size, container += size) memcpy(container, funct(values), size);
+    for(end = values+(len*size); values < end; values += size, container += size) ememcpy(container, funct(values), size);
 }
 
 
 void swap(void *value1, void *value2, size_t size) {
     void *temp = emalloc(size);
     
-    memcpy(temp, value1, size);
-    memcpy(value1, value2, size);
-    memcpy(value2, temp, size);
+    ememcpy(temp, value1, size);
+    ememcpy(value1, value2, size);
+    ememcpy(value2, temp, size);
     
     free(temp);
 }
@@ -377,7 +377,7 @@ void reverse_into(void *values, void *container, int len, size_t size) {
     void *end;
     
     // reverse indexes through array, and copies values into container
-    for(end = values+(--len*size), len = 0; end >= values; end -= size, len += size) memcpy(container+len, end, size);
+    for(end = values+(--len*size), len = 0; end >= values; end -= size, len += size) ememcpy(container+len, end, size);
 }
 
 
