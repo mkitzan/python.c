@@ -30,8 +30,8 @@ Dict *new_dict(unsigned int);
 void delete_dict(Dict *);
 
 
-// hashes pointer to value, returns dict, because dict may be resized creating a new dict reference
-// if the key exists in the table, the value at its entry will be overwritten
+/* hashes pointer to value, returns dict, because dict may be resized creating a new dict reference
+   if the key exists in the table, the value at its entry will be overwritten */
 Dict *hash(Dict *, void *, size_t, void *);
 
 
