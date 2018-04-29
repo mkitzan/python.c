@@ -61,7 +61,7 @@ Dict *grow(Dict *curr) {
     Dict *temp;
     
     // double capacity, set old to the previous table
-    temp = new_dict(curr->cap*2);
+    temp = new_dict(curr->cap * 2);
     temp->old = curr;
     
     return temp;

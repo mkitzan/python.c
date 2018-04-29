@@ -56,7 +56,7 @@ Node *insert(Node *start, void *val, size_t size, int i) {
     if(!i) return push(start, val, size);
     
     // otherwise, get the node before, and link with new node
-    link(get(start, i-1), new_node(val, size));
+    link(get(start, i - 1), new_node(val, size));
     
     return start;
 }
@@ -96,7 +96,7 @@ Node *rem(Node *start, void *container, size_t size, int i) {
     if(!i) return pop(start, container, size);
     
     // get node before the key index, and the next node
-    prev = get(start, i-1);
+    prev = get(start, i - 1);
     curr = prev->next;
     // link over while retaining the key node
     prev->next = curr->next;
@@ -198,7 +198,7 @@ void toarray(void *container, Node *start, size_t size) {
   
     offset = 0;
     // iterate and copy node values into array container
-    for(; start != NULL; start = start->next, offset += size) ememcpy(container+offset, start->value, size);
+    for(; start != NULL; start = start->next, offset += size) ememcpy(container + offset, start->value, size);
 }
 
 
