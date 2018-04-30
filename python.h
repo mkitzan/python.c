@@ -72,16 +72,16 @@ int slice_into(void *values, void *container, int start, int stop, int step, siz
 
 /* takes test function (return true or false), and array. tests each array value, removes from array all values where false. 
    returns new length of array*/
-int filter(int(*funct)(void *), void *values, int len, size_t size);
+int filter(int (*funct)(void *), void *values, int len, size_t size);
 
 /* takes test function (return true or false), and array. tests each array value, writes all true values into container. 
    returns container length*/
-int filter_into(int(*funct)(void *), void *values, void *container, int len, size_t size);
+int filter_into(int (*funct)(void *), void *values, void *container, int len, size_t size);
 
 
 /* takes function, and array. performs function on every value in array
    function must have no return value*/
-void map(void(*funct)(void *), void *values, int len, size_t size);
+void map(void (*funct)(void *), void *values, int len, size_t size);
 
 /* takes function, and array. perform function on every value in array, and writes result into container.
    function must return the result, so it can written into container*/ 

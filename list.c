@@ -13,24 +13,24 @@ void link(Node *curr, Node *ins) {
     curr->next = ins;
 }
 
-// HELPER FUNCTIONS END
+// HELPER FUNCTIONS tail
 
 
-int length(Node *start) {
+int length(Node *head) {
     int n;
     
     // iterates through list while incrementing count value
-    for(n = 0; start != NULL; start = start->next, n++);
+    for(n = 0; head != NULL; head = head->next, n++);
     
     return n;
 }
 
 
-Node *end(Node *start) {
+Node *end(Node *head) {
     // iterates through the list until it reaches a NULL next pointer
-    for(; start->next != NULL; start = start->next);
+    for(; head->next != NULL; head = head->next);
     
-    return start;
+    return head;
 }
 
 
@@ -51,52 +51,52 @@ Node *new_node(void *val, size_t size) {
 }
 
 
-Node *insert(Node *start, void *val, size_t size, int i) {
-    // check if index is 0, push to list and return new start if so
-    if(!i) return push(start, val, size);
+Node *insert(Node *head, void *val, size_t size, int i) {
+    // check if index is 0, push to list and return new head if so
+    if(!i) return push(head, val, size);
     
     // otherwise, get the node before, and link with new node
-    link(get(start, i - 1), new_node(val, size));
+    link(get(head, i-1), new_node(val, size));
     
-    return start;
+    return head;
 }
 
 
-Node *push(Node *start, void *val, size_t size) {
+Node *push(Node *head, void *val, size_t size) {
     // make node from args
     Node *ins = new_node(val, size);
     
     // set front
-    ins->next = start;
+    ins->next = head;
     
     return ins;
 }
 
 
-Node *append(Node *start, void *val, size_t size) {
+Node *append(Node *head, void *val, size_t size) {
     // get last node, join new node with
-    end(start)->next = new_node(val, size);
+    end(head)->next = new_node(val, size);
     
-    return start;
+    return head;
 }
 
 
-Node *get(Node *start, int i) {
+Node *get(Node *head, int i) {
     // iterates until the index value is 0
-    for(; i > 0; i--) start = start->next;
+    for(; i > 0; i--) head = head->next;
     
-    return start;
+    return head;
 }
 
 
-Node *rem(Node *start, void *container, size_t size, int i) {
+Node *rem(Node *head, void *container, size_t size, int i) {
     Node *prev, *curr;
     
     // check if index is 0, pop if so
-    if(!i) return pop(start, container, size);
+    if(!i) return pop(head, container, size);
     
     // get node before the key index, and the next node
-    prev = get(start, i - 1);
+    prev = get(head, i-1);
     curr = prev->next;
     // link over while retaining the key node
     prev->next = curr->next;
@@ -105,23 +105,23 @@ Node *rem(Node *start, void *container, size_t size, int i) {
     ememcpy(container, curr->value, size);
     delete_node(curr);
     
-    return start;
+    return head;
 }
 
 
-Node *pop(Node *start, void *container, size_t size) {
+Node *pop(Node *head, void *container, size_t size) {
     Node *temp;
     
-    // retain current start
-    temp = start;
+    // retain current head
+    temp = head;
     // point to its next
-    start = start->next;
+    head = head->next;
     
-    // copy values, delete old start
+    // copy values, delete old head
     ememcpy(container, temp->value, size);
     delete_node(temp);
     
-    return start;
+    return head;
 }
 
 
@@ -133,11 +133,11 @@ void delete_node(Node *curr) {
 }
 
 
-void delete_list(Node *start) {
+void delete_list(Node *head) {
     Node *prev, *curr;
     
     // iterate through list deleting previous node
-    for(prev = start, curr = prev->next; curr != NULL; prev = curr, curr = curr->next) delete_node(prev);
+    for(prev = head, curr = prev->next; curr != NULL; prev = curr, curr = curr->next) delete_node(prev);
     // fence post
     delete_node(prev);
 }
@@ -149,71 +149,141 @@ Node *copy_node(Node *curr, size_t size) {
 }
 
 
-Node *copy_list(Node *start, size_t size) {
+Node *copy_list(Node *head, size_t size) {
     Node *temp, *curr;
     
-    // copies start of list, perserves to pass back as the front
-    temp = new_node(start->value, size);
+    // copies head of list, perserves to pass back as the front
+    temp = new_node(head->value, size);
     curr = temp;
     
     // co-iterates through passed list and list being built
-    for(start = start->next; start != NULL; start = start->next, curr = curr->next) curr->next = copy_node(start, size);
+    for(head = head->next; head != NULL; head = head->next, curr = curr->next) curr->next = copy_node(head, size);
     
     return temp;
 }
 
 
-Node *extend(Node *start1, Node *start2, size_t size) {
+Node *extend(Node *head1, Node *head2, size_t size) {
     Node *temp;
     
-    // gets end of first list
-    temp = end(start1);
-    // grafts list2 copy to end
-    temp->next = copy_list(start2, size);
+    // gets tail of first list
+    temp = end(head1);
+    // grafts list2 copy to tail
+    temp->next = copy_list(head2, size);
     
-    return start1;
+    return head1;
 }
 
 
 Node *tolist(void *arr, int len, size_t size) {
     int i;
-    Node *start, *end;
+    Node *head, *tail;
     
-    // turns arr[0] into a start node
-    start = new_node(arr, size);
-    end = start;
+    // turns arr[0] into a head node
+    head = new_node(arr, size);
+    tail = head;
     
     // uses len to sentinel loop, i to offset void pointer
     for(i = size, len--; len; i += size, len--) {
-        // make new node from arr values, and link to end
-        end->next = new_node(arr+i, size); 
-        end = end->next;
+        // make new node from arr values, and link to tail
+        tail->next = new_node(arr+i, size); 
+        tail = tail->next;
     }
     
-    return start;
+    return head;
 }
 
-void toarray(void *container, Node *start, size_t size) {
+void toarray(void *container, Node *head, size_t size) {
     int offset;
   
     offset = 0;
     // iterate and copy node values into array container
-    for(; start != NULL; start = start->next, offset += size) ememcpy(container + offset, start->value, size);
+    for(; head != NULL; head = head->next, offset += size) ememcpy(container+offset, head->value, size);
 }
 
 
-Node *reverse_list(Node *start, size_t size) {
+Node *reverse_list(Node *head, size_t size) {
     Node *temp, *curr;
     
     // create intial node
-    temp = copy_node(start, size);
+    temp = copy_node(head, size);
     // push current node to new list, reversing list
-    for(curr = start->next; curr != NULL; curr = curr->next) temp = push(temp, curr->value, size);
+    for(curr = head->next; curr != NULL; curr = curr->next) temp = push(temp, curr->value, size);
     // delete old list
-    delete_list(start);
+    delete_list(head);
 
     return temp;
 }
+
+
+Node *filter_list(Node *head, int (*funct)(void *)) {
+    Node *prev, *curr;
+    
+    // iterate through list, test each node
+    for(prev = NULL, curr = head; curr != NULL;) {
+        if(!funct(curr->value)) {
+            if(prev == NULL) {
+                // case if node is head
+                prev = curr;
+                curr = curr->next;
+                delete_node(prev);
+                prev = NULL;
+                head = curr;
+            } else {
+                // default case (mid or tail node)
+                prev->next = curr->next;
+                delete_node(curr);
+                curr = prev->next;
+            }
+        } else {
+            // move on if value passes
+            prev = curr;
+            curr = curr->next;
+        }
+    }
+    
+    // must return head incase head node was filtered out
+    return head;
+}
+
+
+Node *map_list(Node *head, void (*funct)(void *)) {
+    Node *curr;
+    
+    // iterate and perform function on every node
+    for(curr = head; curr != NULL; curr = curr->next) funct(curr->value);
+    
+    // trying to perserve a return format
+    return head;
+}
+
+
+Node *slice_list(Node *head, size_t size, int start, int stop, int step) {
+    int i;
+    Node *temp, *new, *curr;
+    
+    // vet those input
+    if(stop <= start) return head;
+    
+    // get the node to start at, and copy it to the new list
+    curr = get(head, start);
+    temp = copy_node(curr, size);
+    new = temp;
+    
+    for(i = 1, curr = curr->next; i < (stop - start) && curr != NULL; i++, curr = curr->next) {
+        // copy node if it's position lands within the step
+        if(!(i % step)) {
+            temp->next = copy_node(curr, size);
+            temp = temp->next;
+        }
+    }
+
+    // free previous list
+    delete_list(head);
+
+    return new;
+}
+
 
 /*
 void lsort(List *, int (*compare)(void *, void *, size_t));

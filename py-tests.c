@@ -10,6 +10,11 @@
 
 #define POINTER_SIZE sizeof(void *)
 
+void printlist(Node *n) {
+    for(; n != NULL; n = n->next) printf("%f\t", *(double *)(n->value));
+    printf("\n");
+}
+
 // TESTER
 void times_two(void *value) {
     *(int *)value = *(int *)value * 2;
@@ -17,6 +22,14 @@ void times_two(void *value) {
 
 int is_even(void *value) {
     return (*(int *)value+1) % 2;
+}
+
+void mult_double(void *value) {
+    *(double *)value = *(double *)value * 2;
+}
+
+int greater(void *value) {
+    return *(double *)value < 5;
 }
 
 
@@ -314,7 +327,7 @@ void test_listops() {
     assert(*(double *)(get(t, 3)->value) == 4.4);
     assert(*(double *)(get(t, 4)->value) == 5.5);
     
-    printf("PASSED\nTESTING reverse_list   -> ");
+    printf("PASSED\nTESTING REVERSE    -> ");
 
     t = reverse_list(t, size);
     
@@ -338,6 +351,40 @@ void test_listops() {
     assert(*(double *)(get(n, 7)->value) == 3.3);
     assert(*(double *)(get(n, 8)->value) == 2.2);
     assert(*(double *)(get(n, 9)->value) == 1.1);
+    
+    printf("PASSED\nTESTING MAP LIST   -> ");
+    
+    void (*funct1)(void *);
+    funct1 = &mult_double;
+    t = map_list(t, funct1);
+    
+    assert(*(double *)(get(t, 0)->value) == 11.0);
+    assert(*(double *)(get(t, 1)->value) == 8.8);
+    assert(*(double *)(get(t, 2)->value) == 6.6);
+    assert(*(double *)(get(t, 3)->value) == 4.4);
+    assert(*(double *)(get(t, 4)->value) == 2.2);
+    
+    printf("PASSED\nTESTING FILTER     -> ");
+    
+    int (*funct2)(void *);
+    funct2 = &greater;
+    n = filter_list(n, funct2);
+    
+    assert(*(double *)(get(n, 0)->value) == 1.1);
+    assert(*(double *)(get(n, 1)->value) == 2.2);
+    assert(*(double *)(get(n, 2)->value) == 3.3);
+    assert(*(double *)(get(n, 3)->value) == 4.4);
+    assert(*(double *)(get(n, 4)->value) == 4.4);
+    assert(*(double *)(get(n, 5)->value) == 3.3);
+    assert(*(double *)(get(n, 6)->value) == 2.2);
+    assert(*(double *)(get(n, 7)->value) == 1.1);
+    
+    printf("PASSED\nTESTING SLICE      -> ");
+    
+    n = slice_list(n, sizeof(double), 1, 7, 2);
+    assert(*(double *)(get(n, 0)->value) == 2.2);
+    assert(*(double *)(get(n, 1)->value) == 4.4);
+    assert(*(double *)(get(n, 2)->value) == 3.3);
     
     printf("PASSED\n\n");
     

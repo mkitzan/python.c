@@ -68,8 +68,21 @@ Node *extend(Node *, Node *, size_t);
 Node *reverse_list(Node *, size_t);
 
 
+// maps a function to every value in list
+Node *map_list(Node *, void (*funct)(void *));
+
+
+// filters out nodes from list where function returns false
+Node *filter_list(Node *, int (*funct)(void *));
+
+
+// slices nodes from the list
+Node *slice_list(Node *, size_t, int, int, int);
+
+
 // converts passed array to list
 Node *tolist(void *, int len, size_t size);
+
 
 // copies each node value into container array
 void toarray(void *, Node *, size_t);
