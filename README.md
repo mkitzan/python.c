@@ -36,6 +36,9 @@ Has functions and structs for generic linked lists.
 - Return list's tail node
 - List extend
 - List reverse
+- List map
+- List filter
+- List slice
 - Convert list to static array
 - Convert array to linked list
 
