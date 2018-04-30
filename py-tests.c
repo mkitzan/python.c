@@ -426,6 +426,19 @@ void test_msort() {
 }
 
 
+void print_dict(Dict *dt) {
+    unsigned int i;
+    
+    for(i = 0; i < dt->cap; i++) {
+        if((dt->table[i]).key == NULL) printf("NULL\t");
+        else printf("%c\t", *(char *)(dt->table[i]).key);
+    }
+        
+    printf("\n%lu\n", dt->cap);
+    printf("%lu\n\n", dt->count);
+}
+
+
 void const_test() {
     Dict *dt;
     int i = 10;
@@ -447,8 +460,8 @@ void const_test() {
 
 void hash_test() {
     Dict *dt;
-    void *val;
-    int i = 7;
+    void *val1, *val2, *val3;
+    unsigned int i = 7;
     
     char k1, k2, k3, k4, k5, k6, k7;
     k1 = 'k';
@@ -480,15 +493,43 @@ void hash_test() {
     dt = hash(dt, &k5, sizeof(k5), &v5);
     dt = hash(dt, &k6, sizeof(k6), &v6);
     dt = hash(dt, &k7, sizeof(k7), &v7);
+        
+    printf("PASSED\n\n");
     
-    printf("PASSED\nTESTING LOOKUP  -> ");
+    print_dict(dt);
+    print_dict(dt->old);
     
-    val = lookup(dt, &k1, sizeof(k1));
+    printf("TESTING LOOKUP  -> ");
+    
+    val1 = lookup(dt, &k1, sizeof(k1));
+    val2 = lookup(dt, &k3, sizeof(k3));
+    val3 = lookup(dt, &k7, sizeof(k7));
     
     printf("PASSED\nASSERTING VALS  -> ");
     
-    assert(*(double *)val == v1);
+    assert(*(double *)val1 == v1);
+    assert(*(double *)val2 == v3);
+    assert(*(double *)val3 == v7);
+    
+    printf("PASSED\nTESTING REMOVE  -> ");
+    
+    val1 = clear(dt, &k1, sizeof(k1));
+    val2 = clear(dt, &k4, sizeof(k4));
+    val3 = clear(dt, &k6, sizeof(k6));
+
+    printf("PASSED\nASSERTING VALS  -> ");
+    
+    assert(*(double *)val1 == v1);
+    assert(lookup(dt, &k1, sizeof(k1)) == NULL);
+    assert(*(double *)val2 == v4);
+    assert(lookup(dt, &k4, sizeof(k4)) == NULL);
+    assert(*(double *)val3 == v6);
+    assert(lookup(dt, &k6, sizeof(k6)) == NULL);
+    
     printf("PASSED\n\n");
+    
+    print_dict(dt);
+    print_dict(dt->old);
     
     delete_dict(dt);
 }

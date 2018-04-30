@@ -7,16 +7,15 @@ typedef struct dict Dict;
 struct entry {
     void *key;
     size_t ksize;
-    
-    void *val;
+    void *value;
 };   
 
 
 struct dict {
-    Entry **table;
+    Entry *table;
     
-    unsigned int cap;
-    unsigned int count;
+    long unsigned int cap;
+    long unsigned int count;
     
     Dict *old;
 };
@@ -39,7 +38,7 @@ Dict *hash(Dict *, void *, size_t, void *);
 void *lookup(Dict *, void *, size_t);
 
 // returns pointer to hashed value, and removes the entry it was contained in from the dict
-void *removefrom(Dict *, void *, size_t);
+void *clear(Dict *, void *, size_t);
 
 #endif
 
