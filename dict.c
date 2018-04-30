@@ -59,12 +59,12 @@ double lf(long unsigned int n, long unsigned int k) {
 
 
 long unsigned int inithash(Dict *dt, void *k, size_t ks) {
-    long unsigned int temp;
+    long long unsigned int temp;
     
     // clear all bits
     temp = 0;
     // copy of a limited amount of bits at pointer (prevents arithmetic on strings longer than 64 bits)
-    ememcpy(&temp, k, ks % (sizeof(long unsigned int) + 1));
+    ememcpy(&temp, k, ks % (sizeof(long long unsigned int) + 1));
     
     return (temp + ks + (long unsigned int)dt->table) % dt->cap;
 }
