@@ -7,7 +7,7 @@
 
 
 void delete_dict(Dict *dt) {
-    /* free any filled entry, then table itself */
+    /* free entry array */
     free(dt->table);
     /* if the old table is active, free it aswell (does not lead to infinite recursion) */
     if(dt->old != NULL) delete_dict(dt->old);

@@ -7,6 +7,7 @@ typedef struct dict Dict;
 struct entry {
     void *key;
     size_t ksize;
+    
     void *value;
 };   
 
@@ -25,7 +26,8 @@ struct dict {
 Dict *new_dict(unsigned int);
 
 
-/* frees the passed dictionary */
+/* frees the passed dictionary. does not free entry value pointers
+   but perhaps it should */
 void delete_dict(Dict *);
 
 

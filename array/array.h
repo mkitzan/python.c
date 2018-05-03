@@ -2,10 +2,14 @@
 #define _ARRAY_H_
 
 
-/* performs recursive merge sort on an interval of values */
+/* performs recursive merge sort on an interval of values
+   benefits over qsort is the available size_t compare argument
+   this arg prevents the compare function from assuming explicitly the size_t */
 void sort(void *values, int low, int high, size_t size, int(*compare)(const void *, const void *, size_t size));
 
-/* wrapper for sort, does not require stating low and high index limits */
+/* wrapper for sort, does not require stating low and high index limits
+   benefits over qsort is the available size_t compare argument
+   this arg prevents the compare function from assuming explicitly the size_t */
 void msort(void *values, int len, size_t size, int(*compare)(const void *, const void *, size_t size));
 
 
