@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include "dict.h"
+#include "../efuncts.h"
 
 
 void print_dict(Dict *dt) {
@@ -13,8 +14,8 @@ void print_dict(Dict *dt) {
         else printf("%c\t", *(char *)(dt->table[i]).key);
     }
         
-    printf("\n%d\n", dt->cap);
-    printf("%d\n\n", dt->count);
+    printf("\n%lu\n", dt->cap);
+    printf("%lu\n\n", dt->count);
 }
 
 

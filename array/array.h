@@ -1,11 +1,11 @@
-#ifndef _PYTHON_H_
-#define _PYTHON_H_
+#ifndef _ARRAY_H_
+#define _ARRAY_H_
 
 
-/* performs recursive merge sort on an interval of values */
+// performs recursive merge sort on an interval of values
 void sort(void *values, int low, int high, size_t size, int(*compare)(const void *, const void *, size_t size));
 
-/* wrapper for sort, does not require stating low and high index limits */
+// wrapper for sort, does not require stating low and high index limits
 void msort(void *values, int len, size_t size, int(*compare)(const void *, const void *, size_t size));
 
 
@@ -18,7 +18,7 @@ int set(void *values, int len, size_t size);
 int set_into(void *values, void *container, int len, size_t size);
 
 
-/* takes test value and array of values. returns 1 if test val in array, 0 if not */
+// takes test value and array of values. returns 1 if test val in array, 0 if not
 int in(void *test, void *values, int len, size_t size);
 
 
@@ -88,28 +88,28 @@ void map(void (*funct)(void *), void *values, int len, size_t size);
 void map_into(void *(*funct)(void *), void *values, void *container, int len, size_t size);
 
 
-/* swaps values at both pointers. values must be same size */
+// swaps values at both pointers. values must be same size
 void swap(void *value1, void *value2, size_t size);
 
 
-/* takes an array. reverses array inplace */
+// takes an array. reverses array inplace.
 void reverse(void *values, int len, size_t size);
 
-/* takes an array and container array. reverses array into container */
+// takes an array and container array. reverses array into container
 void reverse_into(void *values, void *container, int len, size_t size);
 
 
-/* takes array of ints. returns smallest value */
+// takes array of ints. returns smallest value
 int imin(int *values, int len);
 
-/* takes array of doubles. returns smallest value */
+// takes array of doubles. returns smallest value
 double dmin(double *values, int len);
 
 
-/* takes array of ints. return largest value */
+// takes array of ints. return largest value
 int imax(int *values, int len);
 
-/* takes array of doubles. returns largest value */
+// takes array of doubles. returns largest value
 double dmax(double *values, int len);
 
 #endif

@@ -1,8 +1,8 @@
 # python.c
 It's all your favorite Python functions, but in C.
-Composed of three interfaces: python.h, list.h, dict.h.
+Composed of three interfaces: array.h, list.h, dict.h.
 
-# python.h
+# array.h
 Has functions which operate on static arrays.
 
 - Min / max integer or double getter from array

@@ -18,14 +18,14 @@ void test_constructor() {
     double data = 10.25;
     
     printf("\nTESTING CONSTR -> ");
-    n = nnew(&data, sizeof(double));
+    n = new_node(&data, sizeof(double));
     
     assert(*(double *)(n->value) == data);
     assert(n->next == NULL);
     
     printf("PASSED\n\n");
 
-    nfree(n);
+    delete_node(n);
 }
 
 
@@ -36,7 +36,7 @@ void test_listaugment() {
     
     data = 0.9;
     
-    n = nnew(&data, size);
+    n = new_node(&data, size);
     printf("INSERTING DATA   -> ");
     
     data = 1.1;
@@ -112,7 +112,7 @@ void test_listaugment() {
     
     printf("PASSED\n\n");
 
-    lfree(n);
+    delete_list(n);
 }
 
 
@@ -124,9 +124,11 @@ void test_listops() {
     size_t size = sizeof(double);
     
     printf("TESTING CONVERTERS -> ");
+    
+    temp = malloc(sizeof(double)*l);
 
     n = tolist(data, l, size);
-    temp = toarray(n, size);
+    toarray(temp, n, size);
     
     assert(*(double *)(get(n, 0)->value) == 1.1);
     assert(*(double *)(get(n, 1)->value) == 2.2);
@@ -142,7 +144,7 @@ void test_listops() {
     
     printf("PASSED\nTESTING COPY       -> ");
 
-    t = lcopy(n, size);
+    t = copy_list(n, size);
     
     assert(*(double *)(get(t, 0)->value) == 1.1);
     assert(*(double *)(get(t, 1)->value) == 2.2);
@@ -150,9 +152,9 @@ void test_listops() {
     assert(*(double *)(get(t, 3)->value) == 4.4);
     assert(*(double *)(get(t, 4)->value) == 5.5);
     
-    printf("PASSED\nTESTING lreverse    -> ");
+    printf("PASSED\nTESTING reverse_list    -> ");
 
-    t = lreverse(t, size);
+    t = reverse_list(t, size);
     
     assert(*(double *)(get(t, 0)->value) == 5.5);
     assert(*(double *)(get(t, 1)->value) == 4.4);
@@ -178,14 +180,14 @@ void test_listops() {
     printf("PASSED\n\n");
     
     free(temp);
-    lfree(t);
-    lfree(n);
+    delete_list(t);
+    delete_list(n);
 }
 
 
 int main() {
-    //test_constructor();
-    //test_listaugment();
+    test_constructor();
+    test_listaugment();
     test_listops();
     
     return 0;
