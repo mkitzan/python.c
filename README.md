@@ -1,6 +1,6 @@
 # python.c
 It's all your favorite Python functions, but in C.
-Composed of three interfaces: array.h, list.h, dict.h.
+Composed of four interfaces: array.h, list.h, dict.h, stack.h.
 
 # array.h
 Has functions which operate on static arrays.
@@ -60,3 +60,13 @@ Functions:
 - Hash key:value pair
 - Lookup value by key
 - Remove value by key
+
+# stack.h
+Has structs and functions for static sized stacks
+
+Functions:
+- New stack
+- Free stack
+- Pop
+- Push
+
