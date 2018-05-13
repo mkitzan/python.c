@@ -368,7 +368,7 @@ void swap(void *value1, void *value2, size_t size) {
 void reverse(void *values, int len, size_t size) {
     int i, lim;
     
-    /* i indexes by size, and swaps values in opposite position
+    /* i indexes by size, and swaps values in opposite position */
     for(i = 0, lim = (len--/2)*size, len *= size; i < lim; i += size) swap(values+i, values+(len-i), size);
 }
 
@@ -376,7 +376,7 @@ void reverse(void *values, int len, size_t size) {
 void reverse_into(void *values, void *container, int len, size_t size) {
     void *end;
     
-    /* reverse indexes through array, and copies values into container
+    /* reverse indexes through array, and copies values into container */
     for(end = values+(--len*size), len = 0; end >= values; end -= size, len += size) ememcpy(container+len, end, size);
 }
 
@@ -384,7 +384,7 @@ void reverse_into(void *values, void *container, int len, size_t size) {
 int imin(int *values, int len) {
     int i, min;
     
-    /* indexes array, keeps track of smallest value
+    /* indexes array, keeps track of smallest value */
     for(i = 1, min = *values; i < len; i++) if(values[i] < min) min = values[i];
     
     return min;
@@ -395,7 +395,7 @@ double dmin(double *values, int len) {
     int i;
     double min;
     
-    /* indexes array, keeps track of smallest value
+    /* indexes array, keeps track of smallest value */
     for(i = 1, min = *values; i < len; i++) if(values[i] < min) min = values[i];
     
     return min;
@@ -405,7 +405,7 @@ double dmin(double *values, int len) {
 int imax(int *values, int len) {
     int i, max;
     
-    /* indexes array, keeps track of largest value
+    /* indexes array, keeps track of largest value */
     for(i = 1, max = *values; i < len; i++) if(values[i] > max) max = values[i];
     
     return max;
@@ -416,7 +416,7 @@ double dmax(double *values, int len) {
     int i;
     double max;
     
-    /* indexes array, keeps track of largest value
+    /* indexes array, keeps track of largest value */
     for(i = 1, max = *values; i < len; i++) if(values[i] > max) max = values[i];
     
     return max;
