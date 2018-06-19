@@ -7,7 +7,7 @@ CFLAGS=-Wall -g -c
 all: lt-tests list.o efuncts.o
 
 lt-tests: lt-tests.o list.o ../efuncts.o
-	$(CC) lt-tests.o list.o efuncts.o -o lt-tests
+	$(CC) lt-tests.o list.o ../efuncts.o -o lt-tests
 	
 lt-tests.o: lt-tests.c list.h
 	$(CC) $(CFLAGS) lt-tests.c

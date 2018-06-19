@@ -7,7 +7,7 @@ CFLAGS=-Wall -g -c
 all: dc-tests dict.o efuncts.o
 
 dc-tests: dc-tests.o dict.o ../efuncts.o
-	$(CC) dc-tests.o dict.o efuncts.o -o dc-tests
+	$(CC) dc-tests.o dict.o ../efuncts.o -o dc-tests
 	
 dc-tests.o: dc-tests.c dict.h
 	$(CC) $(CFLAGS) dc-tests.c

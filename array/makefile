@@ -7,7 +7,7 @@ CFLAGS=-Wall -g -c
 all: ar-tests array.o efuncts.o
 
 ar-tests: ar-tests.c ar-tests.o ../efuncts.o array.o
-	$(CC) ar-tests.o efuncts.o array.o -o $@
+	$(CC) ar-tests.o ../efuncts.o array.o -o $@
 	
 ar-tests.o: ar-tests.c array.h
 	$(CC) $(CFLAGS) ar-tests.c

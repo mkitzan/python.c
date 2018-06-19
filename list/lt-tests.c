@@ -152,7 +152,7 @@ void test_listops() {
     assert(*(double *)(get(t, 3)->value) == 4.4);
     assert(*(double *)(get(t, 4)->value) == 5.5);
     
-    printf("PASSED\nTESTING reverse_list    -> ");
+    printf("PASSED\nTESTING REVERSE    -> ");
 
     t = reverse_list(t, size);
     
