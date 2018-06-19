@@ -138,7 +138,7 @@ void delete_list(Node *head) {
     
     /* iterate through list deleting previous node */
     for(prev = head, curr = prev->next; curr != NULL; prev = curr, curr = curr->next) delete_node(prev);
-    /* fence post
+    /* fence post */
     delete_node(prev);
 }
 
