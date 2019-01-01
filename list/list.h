@@ -3,99 +3,88 @@
 
 typedef struct node Node;
 struct node {
+    // node attributes
     void *value;
     Node *next;
 };
 
 
-/* returns length of list passed */
+// returns length of list passed
 int length(Node *);
 
-/* returns a pointer to an empty node */
+// returns a pointer to an empty node
 Node *new_node(void *, size_t);
 
 
-/* inserts value into list at index 
-   returns head of list */
+// inserts value into list at index
 Node *insert(Node *, void *, size_t, int i);
 
 
-/* inserts value to the front of the list 
-   returns head of list */
+// inserts value to the front of the list
 Node *push(Node *, void *, size_t);
 
 
-/* inserts value to the end of the list
-   returns head of list*/
+// inserts value to the end of the list
 Node *append(Node *, void *, size_t);
 
 
-/* returns node at index */
+// returns node at index
 Node *get(Node *, int);
 
 
-/* copies value at index into container, deletes node at index
-   returns head of the list */
+// copies value at index into container, deletes node at index, and returns start of the list
 Node *rem(Node *, void *, size_t, int);
 
 
-/* removes first node, writes data into container
-   returns head of the list */
+// removes first node, writes data into container, and returns start of the list
 Node *pop(Node *, void *, size_t);
 
 
-/* frees every node in the list, and the list itself: does free node values */
+// frees every node in the list, and the list itself: does free node values
 void delete_list(Node *);
 
 
-/* frees the passed node */
+// frees the passed node
 void delete_node(Node *);
 
 
-/* copies entire list
-   returns a pointer to the head of the copy */
+// copies entire list, and returns a pointer to the start of the copy
 Node *copy_list(Node *, size_t);
 
 
-/* copies passed node
-   returns a pointer to a copy */
+// copies passed node, and returns a pointer to a copy
 Node *copy_node(Node *, size_t);
 
 
-/* returns the last node of a list */
+// returns the last node of a list
 Node *end(Node *start);
 
 
-/* copies over list 2 to the end of list 1, returns node 1 */
+// copies over list 2 to the end of list 1, returns node 1
 Node *extend(Node *, Node *, size_t);
 
 
-/* reverses passed list
-   returns head of reversed list */
+// reverses passed list, and returns start of reversed list
 Node *reverse_list(Node *, size_t);
 
 
-/* maps a function to every value in list
-   returns head of list*/
+// maps a function to every value in list
 Node *map_list(Node *, void (*funct)(void *));
 
 
-/* filters out nodes from list where function returns false
-   returns head of list */
+// filters out nodes from list where function returns false
 Node *filter_list(Node *, int (*funct)(void *));
 
 
-/* slices out nodes from list
-   returns head of list */
+// slices nodes from the list
 Node *slice_list(Node *, size_t, int, int, int);
 
 
-/* converts passed array to list
-   returns head of new list*/
+// converts passed array to list
 Node *tolist(void *, int len, size_t size);
 
 
-/* copies each node value into container array (does not delete passed list) */
+// copies each node value into container array
 void toarray(void *, Node *, size_t);
 
 

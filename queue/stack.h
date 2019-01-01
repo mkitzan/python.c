@@ -3,7 +3,7 @@
 
 typedef struct stack Stack;
 struct stack {
-    void **array;
+    void *array;
     unsigned int cap;
     unsigned int count;
 };

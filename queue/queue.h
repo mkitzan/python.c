@@ -1,28 +1,31 @@
-#ifndef _STACK_H_
-#define _STACK_H_
+#ifndef _QUEUE_H_
+#define _QUEUE_H_
 
-typedef struct stack Stack;
-struct stack {
-    void **array;
+typedef struct queue Queue;
+struct queue {
+    void *array;
     unsigned int cap;
     unsigned int count;
+    
+    unsigned int curr;
+    unsigned int open;
 };
 
 
 /* creates new static stack with the capacity of the int passed
    returns pointer to created stack*/
-Stack *new_stack(unsigned int);
+Stack *create_queue(unsigned int);
 
 
 /* frees all malloced attributes of the passed stack */
-void delete_stack(Stack *);
+void delete_queue(Queue *);
 
 
 /* pushes pointer to stack */
-void push_s(Stack *, void *);
+void enqueue_q(queue *, void *);
 
 
 /* returns top pointer on stack */
-void *pop_s(Stack *);
+void *dequeue_q(queue *);
 
 #endif
