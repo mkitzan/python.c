@@ -8,7 +8,10 @@
 void printl(Node *start) {
     Node *temp;
     
-    for(temp = start; temp->next != NULL; temp = temp->next) printf("%f\t", *(double *)temp->value);
+    for(temp = start; temp->next != NULL; temp = temp->next) {
+        printf("%f\t", *(double *)temp->value);
+    }
+    
     printf("%f\n", *(double *)temp->value);
 }
 

@@ -53,7 +53,9 @@ Node *new_node(void *val, size_t size) {
 
 Node *insert(Node *head, void *val, size_t size, int i) {
     // check if index is 0, push to list and return new head if so
-    if(!i) return push(head, val, size);
+    if(!i) {
+        return push(head, val, size);
+    }
     
     // otherwise, get the node before, and link with new node
     link(get(head, i-1), new_node(val, size));
@@ -83,7 +85,9 @@ Node *append(Node *head, void *val, size_t size) {
 
 Node *get(Node *head, int i) {
     // iterates until the index value is 0
-    for(; i > 0; i--) head = head->next;
+    for(; i > 0; i--) {
+        head = head->next;
+    }
     
     return head;
 }
@@ -93,9 +97,11 @@ Node *rem(Node *head, void *container, size_t size, int i) {
     Node *prev, *curr;
     
     // check if index is 0, pop if so
-    if(!i) return pop(head, container, size);
+    if(!i) {
+        return pop(head, container, size);
+    }
     
-    // get node before the key index, and the next node
+    // get node before the key index and the next node
     prev = get(head, i-1);
     curr = prev->next;
     // link over while retaining the key node
@@ -127,7 +133,7 @@ Node *pop(Node *head, void *container, size_t size) {
 
 
 void delete_node(Node *curr) {
-    // free malloced value, then the struct itself
+    // free malloc-ed value, then the struct itself
     free(curr->value);
     free(curr);
 }
@@ -137,7 +143,10 @@ void delete_list(Node *head) {
     Node *prev, *curr;
     
     // iterate through list deleting previous node
-    for(prev = head, curr = prev->next; curr != NULL; prev = curr, curr = curr->next) delete_node(prev);
+    for(prev = head, curr = prev->next; curr != NULL; prev = curr, curr = curr->next) {
+        delete_node(prev);
+    }
+    
     // fence post
     delete_node(prev);
 }
@@ -152,13 +161,16 @@ Node *copy_node(Node *curr, size_t size) {
 Node *copy_list(Node *head, size_t size) {
     Node *temp, *curr;
     
-    // copies head of list, perserves to pass back as the front
+    // copies head of list, preserves to pass back as the front
     temp = new_node(head->value, size);
     curr = temp;
     
     // co-iterates through passed list and list being built
-    for(head = head->next; head != NULL; head = head->next, curr = curr->next) curr->next = copy_node(head, size);
+    for(head = head->next; head != NULL; head = head->next, curr = curr->next) {
+        curr->next = copy_node(head, size);
+    }
     
+    // return head of list copy
     return temp;
 }
 
@@ -194,21 +206,26 @@ Node *tolist(void *arr, int len, size_t size) {
 }
 
 void toarray(void *container, Node *head, size_t size) {
-    int offset;
-  
-    offset = 0;
+    int offset = 0;
+    
     // iterate and copy node values into array container
-    for(; head != NULL; head = head->next, offset += size) ememcpy(container+offset, head->value, size);
+    for(; head != NULL; head = head->next, offset += size) {
+        ememcpy(container+offset, head->value, size);
+    }
 }
 
 
 Node *reverse_list(Node *head, size_t size) {
     Node *temp, *curr;
     
-    // create intial node
+    // create initial node
     temp = copy_node(head, size);
+    
     // push current node to new list, reversing list
-    for(curr = head->next; curr != NULL; curr = curr->next) temp = push(temp, curr->value, size);
+    for(curr = head->next; curr != NULL; curr = curr->next) {
+        temp = push(temp, curr->value, size);
+    }
+    
     // delete old list
     delete_list(head);
 
@@ -251,7 +268,9 @@ Node *map_list(Node *head, void (*funct)(void *)) {
     Node *curr;
     
     // iterate and perform function on every node
-    for(curr = head; curr != NULL; curr = curr->next) funct(curr->value);
+    for(curr = head; curr != NULL; curr = curr->next) {
+        funct(curr->value);
+    }
     
     // trying to perserve a return format
     return head;
@@ -263,7 +282,9 @@ Node *slice_list(Node *head, size_t size, int start, int stop, int step) {
     Node *temp, *new, *curr;
     
     // vet those input
-    if(stop <= start) return head;
+    if(stop <= start) {
+        return head;
+    }
     
     // get the node to start at, and copy it to the new list
     curr = get(head, start);
